@@ -17,6 +17,7 @@
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
 .idea/uiDesigner.xml
+.idea/*
 
 # Gradle:
 .idea/gradle.xml
@@ -27,6 +28,8 @@
 
 ## File-based project format:
 *.iws
+*.ipr
+*.iml
 
 ## Plugin-specific files:
 
