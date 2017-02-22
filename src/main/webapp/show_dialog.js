@@ -26,29 +26,27 @@ function init_dialogs() {
     }
     function show_dialog() {
 
-        function to_answer(startedAt, answer) {
-            console.log("factory", startedAt, answer)
-            return function () {
-                $.ajax({
-                    method: 'POST', contentType: "application/json",
-                    url: "answer",
-                    data: JSON.stringify({
 
-                        "askedAt": startedAt,
-                        "answeredAt": utcDate(),
-                        "answer": answer
-                    }),
-
-                    success: function (data) {
-                        console.log("data", startedAt, answer)
-                    },
-                    error: function (error) {
-                        console.log("error", startedAt, answer)
-                    }
-                });
-            };
-
+        function send_answer(answer) {
+            $.ajax({
+                method: 'POST', contentType: "application/json",
+                url: "answer",
+                data: JSON.stringify({
+                    "askedAt": state.startedAt,
+                    "answeredAt": utcDate(),
+                    "answer": answer
+                }),
+                error: function (error) {
+                    console.log("error", answer, error);
+                }
+            });
         }
+
+        state  = {
+            "startedAt": utcDate()
+        };
+
+
 
         var notification = new Notification(
             "Hi there!",
@@ -62,20 +60,19 @@ function init_dialogs() {
         );
 
 
+        notification.onclick = function(event) { }
 
-        notification.onclick = function(event) {
-            var yes_button = $("#yes");
-            var no_button = $("#no");
+        var yes_button = $("#yes");
 
-            yes_button.unbind('click');
-            yes_button.click(to_answer(notification.data.startedAt, "yes"));
 
-            no_button.unbind('click');
-            no_button.click(to_answer(notification.data.startedAt, "no"));
-            console.log("clicked");
+        var no_button = $("#no");
 
+        function button_click(event) {
+            send_answer(event.target.id);
         }
 
+        yes_button.click(button_click);
+        no_button.click(button_click);
     }
 
 
