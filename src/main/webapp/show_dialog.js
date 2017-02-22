@@ -21,7 +21,8 @@ function init_dialogs() {
     }
 
     function delayd_show_dialog() {
-        setTimeout(show_dialog, 1000);
+
+        setInterval(show_dialog, 60000);
 
     }
     function show_dialog() {
